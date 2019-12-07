@@ -22,12 +22,8 @@
 
 **Prerequisites**
 
-1. Make sure you have docker installed on your oss-se-tools virtual machine. It should have been installed there by IT support but confirm it by running `docker ps -a` [Here](https://docs.docker.com/v17.09/engine/installation/) are the installation instructions in case you need them. You will need to follow the appropriate operating system ones.
+1. Make sure you have docker installed on your oss-se-tools virtual machine. It should have been installed there by IT support but confirm it by running `docker ps -a`. [Here](https://docs.docker.com/v17.09/engine/installation/) are the installation instructions in case you need them. You will need to follow the appropriate operating system ones.
 
-2. Update and install necessary prerequisites with
-``` bash
-sudo apt update && sudo apt install git 
-```
 
 ### Easy: DNS over TLS with stubby and Quad 9
 
@@ -50,13 +46,11 @@ sudo apt update && sudo apt install git
 
 2. `git clone https://github.com/tyson312/pan-af-container.git`
 
-3. go into the subfolder
-
-4. make edits as appropriate; look through the files
+3. Go into the subfolder, look through the files, make edits as appropriate.
 
 5. Build the image from the Dockerfile using `docker build -t $(whoami)/pan-af .`
 
-6. when this completes, you will have an image that you can now deploy. The deployment can be done manually with a `docker run -it pan-af` command or with docker-compose which I think is more elegant.
+6. When this completes, you will have an image that you can now deploy. The deployment can be done manually with a `docker run -it pan-af` command or with docker-compose which I think is more elegant.
 
 
 ### Docker compose
@@ -78,7 +72,7 @@ docker-compose --version
 
 5. The webgui isn't going to work yet. P0lr intended this install.sh script to be run on a raspberry pi to configure it as needed to run the tool. We have to do that now for the container. _Note: I modified the script to work on debian instead_
 
-6. To get a bash prompt inside the running container, do `docker run -it panaf /bin/bash` 
+6. To get a bash prompt inside the running container, do `docker exec -it panaf /bin/bash` 
 
 7. You're inside the container now. cd to /panaf and run `install.sh`
 
@@ -96,7 +90,7 @@ docker commit -m "comment here" -a "user or name here" panaf panse/panaf:v2
 
 11. now you need to update the docker-compose.yml file to reflect the new version number you want to launch next time (the one you just saved, not the clean boot).
 
-12. Try stopping the container with `docker stop panaf` 
+12. Try stopping the container with `docker stop panaf` or `docker-compose down`
 
 13. Start it again with `docker-compose up -d`
 
