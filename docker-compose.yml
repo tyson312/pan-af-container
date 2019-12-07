@@ -1,0 +1,16 @@
+version: "3"
+
+# TR first attempt at p0lr/PAN-AF as a container 
+services:
+  panaf:
+    container_name: panaf-new
+    hostname: panaf1
+    image: tyson312/panaf:v1
+    ports:
+      - "81:80/tcp"
+
+    # Volumes store your data between container upgrades
+    volumes:
+       - './var-autoback/:/var/autoback'
+       - './var-dug/:/var/dug'
+    restart: unless-stopped
