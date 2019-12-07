@@ -42,7 +42,7 @@
 
 5. `docker ps` to see that it's running
 
-6. configure dns to use this machine 53/udp for resolution and then check the firewall logs for dns over tls traffic logs.
+6. configure dns to use this machine 53/udp for resolution and then check the firewall logs for dns over tls traffic logs. Filter for port 853 or for dst eq 9.9.9.9
 
 
 ### Not as easy: Build PAN-AF from scratch then save it as your own image
