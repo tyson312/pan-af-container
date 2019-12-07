@@ -3,26 +3,31 @@
 ## Module 1: Docker
 
 ### Goal: 
-* basic understanding of docker and how it works
 
-* build a containerized version of the PAN-AF tool for use at home
+* basic understanding of docker and how it works.
+
+* build a containerized version of [p0lr's PAN-AF tool](https://github.com/p0lr/PAN-AF) for use at home.
 
 ### Background:
+
 * Docker makes testing and/or deploying new software easy.
 
 * PAN-AF is a tool for small static environments that maps MAC addresses to user-id's and then used the API of the firewall to transfer this information for use in security policy. It's lightweight and the perfect candidate for docker learning because it's not readily available as a container image yet.
 
 ### Docker basics
-* Containers are built from Dockerfiles, which is a script of { starting point + stuff to chagne/add + ports/storage to map }
 
-* Containers can be grabbed from the docker hub website- which is quick and easy- but just like grabbing software off a torrent site- you don't know what you're actually running in your environment. Luckily, the hub shows the dockerfile and you can inspect and/or modify it as you see fit, then rebuild it yourself!
+* a container is an instance of an image
+
+* images are built from Dockerfiles, which is a script of { starting point + stuff to chagne/add + ports/storage to map }
+
+* images can be grabbed from the docker hub website- which is quick and easy- but just like grabbing software off a torrent site- you don't know what you're actually running in your environment. Luckily, the hub shows the dockerfile and you can inspect and/or modify it as you see fit, then rebuild it yourself!
 
 * _docker compose_ is a tool that can be used to run containers with a pre-build configuration without having to specify it on the command line at runtime. We'll look at this toward the end of the module.
 
 
 **Prerequisites**
 
-1. Make sure you have docker installed on your oss-se-tools virtual machine. It should have been installed there by IT support but confirm it by running `docker ps -a`. [Here](https://docs.docker.com/v17.09/engine/installation/) are the installation instructions in case you need them. You will need to follow the appropriate operating system ones.
+* Make sure you have docker installed on your oss-se-tools virtual machine. It should have been installed there by IT support but confirm it by running `docker ps -a`. [Here](https://docs.docker.com/v17.09/engine/installation/) are the installation instructions in case you need them. You will need to follow the appropriate operating system ones.
 
 
 ### Easy: DNS over TLS with stubby and Quad 9
@@ -100,7 +105,10 @@ You can check in your images to a registry like Docker Hub or your own. This is 
 
 Amazingly, you can run a docker registry as a docker container itself! [here](https://docs.docker.com/registry/deploying/) is the documentation on how to do this.
 
-### If you don't want to use a registry for your images, you can also move them around like this.
+
+### Without a registry
+
+If you don't want to use a registry for your images, you can also move them around like this.
 
 You will need to save the Docker image as a tar file:
 
@@ -113,4 +121,4 @@ Note: You should add filename (not just directory) with -o, for example:
 
 `docker save -o c:/myfile.tar centos:16`
 
-[source](https://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-using-a-repository)
+  [reference for this idea](https://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-using-a-repository)
