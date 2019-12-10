@@ -53,7 +53,7 @@
 
 3. Go into the subfolder, look through the files, make edits as appropriate.
 
-5. Build the image from the Dockerfile using `docker build -t $(whoami)/pan-af .`
+5. Build the image from the Dockerfile using `docker build -t panse/pan-af .`
 
 6. When this completes, you will have an image that you can now deploy. The deployment can be done manually with a `docker run -it pan-af` command or with docker-compose which I think is more elegant.
 
@@ -62,7 +62,7 @@
 
 1. have a look at the docker-compose.yml file. [Documentation](https://docs.docker.com/compose/)
 
-2. install docker compose:
+2. install docker compose: (note: it may be installed already.. check with docker-compose --version)
 ``` bash
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
@@ -73,40 +73,42 @@ docker-compose --version
 
 3. In the docker-compose.yml file, confirm the image name, version, and other parameters match what you built.
 
-4. Have a look at start-panaf.sh to see the syntax to bring up the image. Bring it up, either with the script or by hand.
+4. Have a look at start-panaf.sh to see the syntax to bring up the image. Bring it up, either with the start.sh script or by hand.
+
+*note*: When the container comes up, you'll see a lot of errors about apache etc. This is expected, because we have supervisor trying to launch software we haven't yet installed. 
 
 5. The webgui isn't going to work yet. P0lr intended this install.sh script to be run on a raspberry pi to configure it as needed to run the tool. We have to do that now for the container. _Note: I modified the script to work on debian instead_
 
-6. To get a bash prompt inside the running container, do `docker exec -it panaf /bin/bash` 
+6. Open another terminal window. To get a bash prompt inside the running container, do `docker exec -it panaf /bin/bash` 
 
 7. You're inside the container now. cd to /panaf and run `install.sh`
 
 8. At this point the container should be prepped and the webgui for PAN-AF should be running.  Let's have a look at PAN-AF. Browse to [localhost on port 81](http://localhost:81)
 
-9. You'll need to click on the logo to access the tool. [Here's](https://github.com/p0lr/PAN-AF) documentation on the PAN-AF tool in case you need help actually configuring/using it.
+9. You'll need to click on the logo to access the tool. Now it's time to configure the tool, starting with Manage Devices to generate an API key. [Here's](https://github.com/p0lr/PAN-AF) documentation on the PAN-AF tool in case you need help actually configuring/using it.
 
-10. Now that it's running, you might want to save the container state to an image so you don't have to do steps 5-9 each time you stand up a new container instance. This is done with a _docker commit_ command and a new version number. Note the container name and the image name are identical in our example (thanks, docker-compose!) so this is easy. If you did it with docker exec, you would have some random string identifying the container such as "small_bassi" and would use that in place of *only* the first panaf in the command below. The second one is your image name.
+10. Now that it's running and configured, you likely want to save the container state to an image so you don't have to do steps 5-9 each time you stand up a new container instance. This is done with a _docker commit_ command and a new version number. Note the container name and the image name are identical in our example (thanks, docker-compose!) so this is easy. If you did it with docker exec, you would have some random string identifying the container such as "small_bassi" and would use that in place of *only* the first panaf in the command below. The second one is your image name.
 
-Be sure to exit out of the container before trying to commmit the container state! Press control-d or type exit.
+_Be sure to exit out of the container before trying to commmit the container state! Press control-d or type exit._
 
 ``` bash
-docker commit -m "comment here" -a "user or name here" panaf panse/panaf:v2
+docker commit -m "comment here" -a "user or name here" panaf panse/panaf:v1
 ```
 
 11. now you need to update the docker-compose.yml file to reflect the new version number you want to launch next time (the one you just saved, not the clean boot).
 
 12. Try stopping the container with `docker stop panaf` or `docker-compose down`
 
-13. Start it again with `docker-compose up -d`
+13. Start it again with `docker-compose up -d`. It should come back to life in the state that you committed it.
 
-### Extra Credit: registries
+### Extra Credit: Registries
 
 You can check in your images to a registry like Docker Hub or your own. This is how you can publish them out to many hosts/users, or move them around.
 
 Amazingly, you can run a docker registry as a docker container itself! [here](https://docs.docker.com/registry/deploying/) is the documentation on how to do this.
 
 
-### Without a registry
+### Without a Registry
 
 If you don't want to use a registry for your images, you can also move them around like this.
 
